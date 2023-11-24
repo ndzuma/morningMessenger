@@ -4,13 +4,15 @@
 
 Morning Messager is a Python script that sends a daily roundup message containing weather information, a verse from the Bible, top stock prices, and news headlines to a specified Telegram chat. The script fetches data from various APIs, including OpenWeatherMap, Alpha Vantage, Hacker News, and a custom Supabase database.
 
+Morning Messager was made to be used as a cron job for daily automated messages. It can be used as-is or modified to suit your needs.
+
 ## Prerequisites
 
 - Python 3.x
-- Required Python packages: `supabase`, `requests`, `python-telegram-bot`
+- Required Python packages: `supabase`, `requests`, `python-telegram-bot`, `python-dotenv`
 
 ```bash
-pip install supabase requests python-telegram-bot
+pip install supabase requests python-telegram-bot python-dotenv
 ```
 
 ## Usage
@@ -22,20 +24,20 @@ pip install supabase requests python-telegram-bot
     cd morning-messager
     ```
 
-2. **Open the script in a text editor and update the following variables with your own values:**
+2. **Edit the existing .env file:**
 
-    - `api_token`: Your Telegram bot API token.
-    - `chat_id`: The chat ID where you want to send the messages.
-    - `url` and `key`: Your Supabase project URL and API key.
+   Open the `.env` file in a text editor and update the following variables with your own values:
 
-    ```python
-    # Open the script in a text editor and update the following variables with your own values:
-    
-    api_token = "your_telegram_bot_api_token"
-    chat_id = 'your_telegram_chat_id'
-    url = "your_supabase_url"
-    key = "your_supabase_api_key"
-    ```
+   ```env
+   TELEGRAM_API_TOKEN=your_token
+   TELEGRAM_CHAT_ID=your_chat_id
+   SUPABASE_URL=your_url
+   SUPABASE_API_KEY=your_key
+   OPEN_WEATHER_API_KEY=your_key
+   ALPHA_VANTAGE_API_KEY=your_key
+   USERS_NAME=some_name
+   TICKERS=your_tickers_separated_by_comma
+   ```
 
 ## Run the Script
 
@@ -51,6 +53,38 @@ The script will fetch:
 - News headlines
 
 It then sends a formatted message to the specified Telegram chat.
+
+## Customizing Output
+
+You can edit the output of the message by going into the `generate_message` function. Feel free to explore and modify the function as needed.
+
+## Future Developments
+
+   ### Multiple Recipients:
+   
+   - Add the ability to send messages to multiple chat IDs.
+   
+   ### Multiple User Names:
+   
+   - Enable the script to handle multiple user names.
+   
+   ### Custom Message Output:
+   
+   - Implement the ability to change the output message using a text file.
+   
+   ### Additional Data Points:
+   
+   - Include options to add more data points, such as additional news sources, weather locations, recommended studies, etc.
+   
+   ### Bible Dataset Availability:
+   
+   - Make the Bible dataset available for cloning.
+   
+   ### Database Connectivity:
+
+   - Allow connection to other databases, not limited to Supabase.
+
+   Feel free to contribute and explore these future developments! Contributions are welcomed.
 
 ### Notes
 
