@@ -30,14 +30,33 @@ pip install supabase requests python-telegram-bot python-dotenv
 
    ```env
    TELEGRAM_API_TOKEN=your_token
-   TELEGRAM_CHAT_ID=your_chat_id
+   TELEGRAM_CHAT_ID=your_chat_id1,your_chat_id2,your_chat_id3,...
    SUPABASE_URL=your_url
    SUPABASE_API_KEY=your_key
    OPEN_WEATHER_API_KEY=your_key
    ALPHA_VANTAGE_API_KEY=your_key
-   USERS_NAME=some_name
-   TICKERS=your_tickers_separated_by_comma
+   USERS_NAME=some_name1,some_name2,some_name3,...
+   TICKERS=your_tickers1,your_tickers2,your_tickers3,...
    ```
+   ### Multiple TICKERS Values:
+
+   You can add multiple TICKERS values in the `.env` file separated by a comma(without spaces), e.g., `TICKERS=voo,tsla,aapl,brk.b`.
+
+   ### Chat ID and Username Priority
+
+   When specifying both chat IDs and usernames, priority is given to chat IDs. Here's how it works:
+
+   - **Scenario 1: More Chat IDs than Users**
+      If you provide 5 chat IDs and 10 usernames, only the first 5 chat IDs will be utilized.
+
+   - **Scenario 2: Equal Chat IDs and Users**
+   When inputting 5 different chat IDs and 5 usernames, they will be matched accordingly.
+
+   - **Scenario 3: Fewer Users than Chat IDs**
+    In cases where you have fewer users than chat IDs, the first specified username will be used for all 5 chat IDs.
+
+   This ensures a systematic and predictable approach to handling both chat IDs and usernames.
+
 
 ## Run the Script
 
