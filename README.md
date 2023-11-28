@@ -2,9 +2,9 @@
 
 ## Overview
 
-Morning Messager is a Python script that sends a daily roundup message containing weather information, a verse from the Bible, top stock prices, and news headlines to a specified Telegram chat. The script fetches data from various APIs, including OpenWeatherMap, Alpha Vantage, Hacker News, and a custom Supabase database.
+Morning Messenger is a Python script that sends a daily roundup message containing weather information, a verse from the Bible, top stock prices, and news headlines to a specified Telegram chat. The script fetches data from various APIs, including OpenWeatherMap, Alpha Vantage, Hacker News, and a custom Supabase database.
 
-Morning Messager was made to be used as a cron job for daily automated messages. It can be used as-is or modified to suit your needs.
+Morning Messenger was made to be used as a cron job for daily automated messages. It can be used as-is or modified to suit your needs.
 
 ## Prerequisites
 
@@ -62,11 +62,7 @@ You can edit the output of the message by going into the `generate_message` func
 
    ### Multiple Recipients:
    
-   - Add the ability to send messages to multiple chat IDs.
-   
-   ### Multiple User Names:
-   
-   - Enable the script to handle multiple user names.
+   - Add the ability to send messages to multiple chat IDs and usernames.
    
    ### Custom Message Output:
    
