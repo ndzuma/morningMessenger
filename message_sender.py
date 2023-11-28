@@ -5,6 +5,7 @@ import requests
 import telegram
 import asyncio
 import random
+import time
 import os
 
 
@@ -15,15 +16,29 @@ def load_ticker() -> list:
     return tickers
 
 
+# Load usernames of recipients
+def load_usernames() -> list:
+    usernames = os.getenv("USERS_NAME")
+    usernames = usernames.split(",")
+    return usernames
+
+
+# Load chat IDs of recipients
+def load_chat_ids() -> list:
+    chat_ids = os.getenv("TELEGRAM_CHAT_ID")
+    chat_ids = chat_ids.split(",")
+    return chat_ids
+
+
 # Load environment variables
 load_dotenv()
 telegram_apiKey = os.getenv("TELEGRAM_API_TOKEN")
-telegram_chatId = os.getenv("TELEGRAM_CHAT_ID")  # Replace with the chat ID you want to send the message to
+telegram_chatId = load_chat_ids()
 supabase_url: str = os.getenv("SUPABASE_URL")
 supabase_key: str = os.getenv("SUPABASE_API_KEY")
 openWeatherMap_apiKey = os.getenv("OPEN_WEATHER_API_KEY")
 alphaVantage_apiKey = os.getenv("ALPHA_VANTAGE_API_KEY")
-users_name = os.getenv("USERS_NAME")
+users_name = load_usernames()
 stockTickers = load_ticker()
 
 
@@ -176,11 +191,24 @@ def generate_message(name: str):
 
 # Main function
 async def main():
-    main_message, news_message = generate_message(name=users_name)
-    bot = telegram.Bot(telegram_apiKey)
-    async with bot:
-        await bot.send_message(text=main_message, chat_id=telegram_chatId, parse_mode="html")
-        await bot.send_message(text=news_message, chat_id=telegram_chatId, parse_mode="html")
+    number_of_ids = len(telegram_chatId)
+    for index in range(number_of_ids):
+        if number_of_ids > len(users_name):
+            print("Error: Number of chat_ids > number of users, therefore only the first user will be used for all chat ids")
+            username = users_name[0]
+        else:
+            username = users_name[index]
+        main_message, news_message = generate_message(name=username)
+        bot = telegram.Bot(telegram_apiKey)
+        print(f"Sending message to username: {username}, chat id: {telegram_chatId[index]}")
+        async with bot:
+            await bot.send_message(text=main_message, chat_id=telegram_chatId[index], parse_mode="html")
+            await bot.send_message(text=news_message, chat_id=telegram_chatId[index], parse_mode="html")
+
+        # The sleep is to ensure telegram doesn't block the bot
+        # You can increase this time or outright remove it if you want
+        # The rate limit is 30 messages per second
+        time.sleep(1)
 
 
 # Start of the program
