@@ -1,5 +1,6 @@
 from supabase import create_client, Client
 from dotenv import load_dotenv
+import requests_cache
 import requests
 import telegram
 import asyncio
@@ -39,6 +40,10 @@ openWeatherMap_apiKey = os.getenv("OPEN_WEATHER_API_KEY")
 alphaVantage_apiKey = os.getenv("ALPHA_VANTAGE_API_KEY")
 users_name = load_usernames()
 stockTickers = load_ticker()
+
+
+# Enable caching with a SQLite backend (this creates a file named 'main_cache.sqlite'). Cache expires after 1 hour
+requests_cache.install_cache('main_cache', expire_after=3600)
 
 
 def get_weather_data():
