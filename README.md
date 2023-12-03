@@ -78,10 +78,6 @@ It then sends a formatted message to the specified Telegram chat.
 You can edit the output of the message by going into the `generate_message` function. Feel free to explore and modify the function as needed.
 
 ## Future Developments
-
-   ### Multiple Recipients:
-   
-   - Add the ability to send messages to multiple chat IDs and usernames.
    
    ### Custom Message Output:
    
@@ -109,5 +105,4 @@ You can edit the output of the message by going into the `generate_message` func
 ### Disclaimer
 
 This script is provided as-is, and the user is responsible for reviewing and complying with the terms of use of the respective APIs. Use it responsibly and respect the terms and conditions of the data providers.
-
 
