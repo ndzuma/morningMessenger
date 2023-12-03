@@ -1,4 +1,3 @@
-#!/Users/malate/opt/anaconda3/envs/randomScripts/bin/python
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import requests
@@ -31,7 +30,7 @@ def load_chat_ids() -> list:
 
 
 # Load environment variables
-load_dotenv()
+load_dotenv("private.env")
 telegram_apiKey = os.getenv("TELEGRAM_API_TOKEN")
 telegram_chatId = load_chat_ids()
 supabase_url: str = os.getenv("SUPABASE_URL")
