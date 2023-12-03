@@ -20,8 +20,8 @@ pip install supabase requests python-telegram-bot python-dotenv
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/your-username/morning-messager.git
-    cd morning-messager
+    git clone https://github.com/ndzuma/morningMessenger.git
+    cd morningMessenger
     ```
 
 2. **Edit the existing .env file:**
