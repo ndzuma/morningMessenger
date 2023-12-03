@@ -9,11 +9,11 @@ Morning Messenger was made to be used as a cron job for daily automated messages
 ## Prerequisites
 
 - Python 3.x
-- Required Python packages: `supabase`, `requests`, `python-telegram-bot`, `python-dotenv`
+- Required Python packages: `supabase`, `requests`, `requests_cache`, `python-telegram-bot`, `python-dotenv`
 
-```bash
-pip install supabase requests python-telegram-bot python-dotenv
-```
+   ```bash
+   pip install supabase requests requests_cache python-telegram-bot python-dotenv
+   ```
 
 ## Usage
 
