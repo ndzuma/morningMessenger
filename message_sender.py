@@ -43,7 +43,7 @@ stockTickers = load_ticker()
 
 
 # Enable caching with a SQLite backend (this creates a file named 'main_cache.sqlite'). Cache expires after 1 hour
-requests_cache.install_cache('main_cache', expire_after=3600)
+requests_cache.install_cache('main_cache', expire_after=600)
 
 
 def get_weather_data():
