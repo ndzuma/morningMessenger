@@ -21,7 +21,6 @@ def parse_env(env_name, is_bool: bool = False) -> list:
     env = os.getenv(env_name)
     parsed = []
     env = env.split(",")
-    print(env)
     if is_bool:
         for i in env:
             if i.lower() == "true":
@@ -46,6 +45,7 @@ alphaVantage_apiKey = os.getenv("ALPHA_VANTAGE_API_KEY")
 users_name = parse_env("USERS_NAME")
 stockTickers = parse_env("TICKERS")
 use_weather = parse_env("USE_WEATHER", is_bool=True)
+locations = parse_env("LOCATION")
 use_stocks = parse_env("USE_STOCKS", is_bool=True)
 use_news = parse_env("USE_NEWS", is_bool=True)
 use_verse = parse_env("USE_VERSE", is_bool=True)
@@ -56,9 +56,26 @@ requests_cache.install_cache('main_cache', expire_after=600)
 
 class Data:
     @staticmethod
-    def weather():
-        lat = 51
-        lon = 0
+    def getLatLon(place):
+        url = f"http://api.openweathermap.org/geo/1.0/direct?q={place}&limit=1&appid={openWeatherMap_apiKey}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            print("Fetching lat and lon")
+            response = response.json()
+            lat = response[0]["lat"]
+            lon = response[0]["lon"]
+            name = response[0]["name"]
+            return lat, lon, False
+        else:
+            print(f"Error fetching lat and lon. Status code: {response.status_code}")
+            return 0, 0, True
+
+    @staticmethod
+    def weather(place):
+        # Using OpenWeatherMap API
+        lat, lon, error = Data.getLatLon(place=place)
+        if error:
+            return "Error", "Error", "Error", "Error", True
         units = "metric"
 
         url = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&units={units}&appid={openWeatherMap_apiKey}"
@@ -90,7 +107,6 @@ class Data:
 
             count = 1
             for story_id in response[:5]:
-                print(story_id)
                 story_url = f'https://hacker-news.firebaseio.com/v0/item/{story_id}.json?print=pretty'
                 story_response = requests.get(story_url)
                 if story_response.status_code == 200:
@@ -166,9 +182,9 @@ class Message:
         return verse_text
 
     @staticmethod
-    def weather():
-        summary, current_temp, day_temp, weather, weather_error = Data.weather()
-        weather_text = "<b>Today's weather</b>\n"
+    def weather(location):
+        summary, current_temp, day_temp, weather, weather_error = Data.weather(place=location)
+        weather_text = f"<b>Today's weather in {location}</b>\n"
         if not weather_error:
             weather_text += f"""The vibe today is {summary}.
                 Current temp: {current_temp}°C
@@ -203,11 +219,12 @@ class Message:
         return news_text
 
 
-def generate_message(name: str, weather: bool, verse: bool, stocks: bool, news: bool):
+def generate_message(name: str, weather: bool, verse: bool, stocks: bool, news: bool, index: int):
     main_message = f"""Hi {name}. Here is your daily round up:\n"""
 
     if weather:
-        main_message += f"""{Message.weather()}"""
+        location = locations[index]
+        main_message += f"""{Message.weather(location=location)}"""
     if verse:
         main_message += f"""{Message.verse()}"""
     if stocks:
@@ -232,7 +249,7 @@ async def main():
         else:
             username = users_name[index]
 
-        main_message = generate_message(name=username, weather=use_weather[index], verse=use_verse[index], stocks=use_stocks[index], news=use_news[index])
+        main_message = generate_message(name=username, weather=use_weather[index], verse=use_verse[index], stocks=use_stocks[index], news=use_news[index], index=index)
         bot = telegram.Bot(telegram_apiKey)
         print(f"Sending message to username: {username}, chat id: {telegram_chatId[index]}")
         async with bot:
