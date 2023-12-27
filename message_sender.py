@@ -223,13 +223,13 @@ def generate_message(name: str, weather: bool, verse: bool, stocks: bool, news: 
 
     if weather:
         location = locations[index]
-        main_message += f"""{Message.weather(location=location)}"""
+        main_message += f"""{Message.weather(location=location)}\n"""
     if verse:
-        main_message += f"""{Message.verse()}"""
+        main_message += f"""{Message.verse()}\n"""
     if stocks:
-        main_message += f"""{Message.stocks()}"""
+        main_message += f"""{Message.stocks()}\n"""
     if news:
-        main_message += f"""{Message.news()}"""
+        main_message += f"""{Message.news()}\n"""
 
     main_message += "<b>Have a nice day!!!</b>"
     main_message = main_message.replace('    ', '')
